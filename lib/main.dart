@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:workmanager/workmanager.dart';
 import './src/app.dart';
-import './src/model/services/backgroung_fatch.dart';
+import './src/model/services/foreground_fetch.dart';
+import './src/model/helpers/service_locator.dart';
 
-void main() {
-  Workmanager.initialize(callbackDispatcher, isInDebugMode: true);
-  Workmanager.registerPeriodicTask("1", "getposition");
+void main() async {
+  setupLocator();
   runApp(
     MyApp(),
   );
+  foreGroundFetch();
 }
