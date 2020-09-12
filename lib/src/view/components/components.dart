@@ -1,0 +1,1 @@
+export './herocard.dart';

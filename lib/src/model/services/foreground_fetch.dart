@@ -6,7 +6,7 @@ import '../core/location_model.dart';
 
 void foreGroundFetch() async {
   if (!(await ForegroundService.foregroundServiceIsStarted())) {
-    await ForegroundService.setServiceIntervalSeconds(300);
+    await ForegroundService.setServiceIntervalSeconds(600);
 
     await ForegroundService.notification.startEditMode();
     await ForegroundService.notification.setTitle("Getting Location");
