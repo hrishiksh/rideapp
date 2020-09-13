@@ -33,6 +33,7 @@ dependencies:
   foreground_service: ^2.0.1+1
   geocoding: ^1.0.3
   timeline_tile: ^0.1.2
+  shared_preferences: ^0.5.10
 
 dev_dependencies:
   flutter_test:

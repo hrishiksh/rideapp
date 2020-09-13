@@ -2,6 +2,7 @@ import 'package:foreground_service/foreground_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'location_service.dart';
 import '../services/database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../core/location_model.dart';
 
 void foreGroundFetch() async {
@@ -19,27 +20,43 @@ void foreGroundFetch() async {
   }
 
   await ForegroundService.setupIsolateCommunication(
-      (message) => print(message.runtimeType));
+      (message) => print(message));
 }
 
 void foregroundServiceFunction() async {
-  print("running");
+  SharedPreferences storage = await SharedPreferences.getInstance();
+  print("running: $storage");
+
+  // Position lastposition = await getlastknownposition();
 
   Position position = await getPosition();
   print("Got location");
 
+  int id = storage.getInt("rowid");
+  print('ID: $id');
+  List<Map<String, dynamic>> prevData =
+      await LocationDatabase.instance.retrivePrevData(id);
+  print(prevData[0]["dateTime"]);
   ForegroundService.notification.setText(
       "${DateTime.now().minute} ${DateTime.now().second}: ${position.latitude}");
-  LocationModel newlocation =
-      LocationModel(latitude: position.latitude, longitude: position.longitude);
-  LocationDatabase.instance.insertLocationDb(newlocation);
+  LocationModel newlocation = LocationModel(
+    latitude: position.latitude,
+    longitude: position.longitude,
+    prevlatitude: prevData[0]["latitude"] ?? null,
+    prevlongitude: prevData[0]["longitude"] ?? null,
+    prevDateTime: DateTime.parse(prevData[0]["dateTime"]) ?? null,
+  );
 
-  print("got position");
+  print('MODEL: $newlocation');
+  int newid = await LocationDatabase.instance.insertLocationDb(newlocation);
+  storage.setInt("rowid", newid);
+
+  print("INSERTED");
 
   if (!ForegroundService.isIsolateCommunicationSetup) {
     ForegroundService.setupIsolateCommunication(
-        (message) => print("isolate: $message"));
+        (message) => print("isolate msg received: $message"));
   }
 
-  ForegroundService.sendToPort("position");
+  ForegroundService.sendToPort("foreground: $position");
 }

@@ -144,7 +144,9 @@ class HomePage extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: () {
+          print('Running');
+        },
         child: Icon(Icons.share_outlined),
       ),
     );

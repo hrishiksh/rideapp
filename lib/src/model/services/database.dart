@@ -8,6 +8,9 @@ class LocationDatabase {
   final String dateTime = 'dateTime';
   final String latitude = 'latitude';
   final String longitude = 'longitude';
+  final String prevlatitude = 'prevlatitude';
+  final String prevlongitude = 'prevlongitude';
+  final String prevDatetime = 'prevdateTime';
 
   LocationDatabase._privateConstructor();
 
@@ -34,8 +37,11 @@ class LocationDatabase {
     CREATE TABLE $tablename(
       $id INTEGER PRIMARY KEY,
       $dateTime STRING NOT NULL,
-      $latitude STRING NOT NULL,
-      $longitude STRING NOT NULL
+      $latitude REAL NOT NULL,
+      $longitude REAL NOT NULL,
+      $prevlatitude REAL,
+      $prevlongitude REAL,
+      $prevDatetime STRING 
     )''');
   }
 
@@ -54,6 +60,19 @@ class LocationDatabase {
         );
       },
     );
+  }
+
+  Future<List<Map<String, dynamic>>> retrivePrevData(int insertid) async {
+    Database db = await instance.getdb;
+    if (insertid != null) {
+      List<Map<String, dynamic>> rawResult = await db.query(tablename,
+          columns: [dateTime, latitude, longitude],
+          where: '$id=?',
+          whereArgs: [insertid]);
+      print('RAW: $rawResult');
+      return rawResult;
+    }
+    return null;
   }
 
   Future<int> insertLocationDb(LocationModel newLocation) async {
