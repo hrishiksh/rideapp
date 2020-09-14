@@ -10,7 +10,7 @@ class LocationDatabase {
   final String longitude = 'longitude';
   final String prevlatitude = 'prevlatitude';
   final String prevlongitude = 'prevlongitude';
-  final String prevDatetime = 'prevdateTime';
+  final String prevdatetime = 'prevdateTime';
 
   LocationDatabase._privateConstructor();
 
@@ -41,25 +41,28 @@ class LocationDatabase {
       $longitude REAL NOT NULL,
       $prevlatitude REAL,
       $prevlongitude REAL,
-      $prevDatetime STRING 
+      $prevdatetime STRING 
     )''');
   }
 
-  Future<List<LocationModel>> retriveLocationDb() async {
+  Future<List<Map<String, dynamic>>> retriveLocationDb() async {
     Database db = await instance.getdb;
     List<Map<String, dynamic>> results = await db.query(tablename);
-
-    return List.generate(
-      results.length,
-      (index) {
-        return LocationModel(
-          id: results[index][id],
-          dateTime: DateTime.parse(results[index][dateTime]),
-          latitude: results[index][latitude],
-          longitude: results[index][longitude],
-        );
-      },
-    );
+    return results;
+    // return List.generate(
+    //   results.length,
+    //   (index) {
+    //     return LocationModel(
+    //       id: results[index][id],
+    //       dateTime: DateTime.parse(results[index][dateTime]),
+    //       latitude: results[index][latitude],
+    //       longitude: results[index][longitude],
+    //       prevlatitude: results[index][prevlatitude],
+    //       prevlongitude: results[index][prevlongitude],
+    //       prevdateTime: DateTime.parse(results[index][prevdatetime]),
+    //     );
+    //   },
+    // );
   }
 
   Future<List<Map<String, dynamic>>> retrivePrevData(int insertid) async {

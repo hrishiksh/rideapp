@@ -13,6 +13,7 @@ void foreGroundFetch() async {
     await ForegroundService.notification.setTitle("Getting Location");
     await ForegroundService.notification
         .setText("Please on your location service");
+
     await ForegroundService.notification.finishEditMode();
 
     await ForegroundService.startForegroundService(foregroundServiceFunction);
@@ -25,9 +26,6 @@ void foreGroundFetch() async {
 
 void foregroundServiceFunction() async {
   SharedPreferences storage = await SharedPreferences.getInstance();
-  print("running: $storage");
-
-  // Position lastposition = await getlastknownposition();
 
   Position position = await getPosition();
   print("Got location");
@@ -36,18 +34,21 @@ void foregroundServiceFunction() async {
   print('ID: $id');
   List<Map<String, dynamic>> prevData =
       await LocationDatabase.instance.retrivePrevData(id);
-  print(prevData[0]["dateTime"]);
+
+  print('DATA: $prevData.');
+
   ForegroundService.notification.setText(
       "${DateTime.now().minute} ${DateTime.now().second}: ${position.latitude}");
+
   LocationModel newlocation = LocationModel(
     latitude: position.latitude,
     longitude: position.longitude,
-    prevlatitude: prevData[0]["latitude"] ?? null,
-    prevlongitude: prevData[0]["longitude"] ?? null,
-    prevDateTime: DateTime.parse(prevData[0]["dateTime"]) ?? null,
+    prevlatitude: prevData != null ? prevData[0]["latitude"] : null,
+    prevlongitude: prevData != null ? prevData[0]["longitude"] : null,
+    prevdateTime:
+        prevData != null ? DateTime.parse(prevData[0]["dateTime"]) : null,
   );
 
-  print('MODEL: $newlocation');
   int newid = await LocationDatabase.instance.insertLocationDb(newlocation);
   storage.setInt("rowid", newid);
 

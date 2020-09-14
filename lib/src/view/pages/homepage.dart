@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import '../components/components.dart';
 import 'package:timeline_tile/timeline_tile.dart';
-import '../../model/helpers/current_address.dart';
-import '../../model/services/location_conversion.dart';
-import 'package:geolocator/geolocator.dart';
-import '../../model/helpers/service_locator.dart';
-import '../../model/services/database.dart';
+import '../components/components.dart';
+import '../../model/helpers/helpers.dart';
+import '../../model/services/services.dart';
 
 class HomePage extends StatelessWidget {
   Widget _seeInMapBtn(BuildContext context) {
@@ -44,54 +41,117 @@ class HomePage extends StatelessWidget {
 
   Widget _timeline(BuildContext context) {
     return Container(
-      child: Column(
-        children: [
-          TimelineTile(
-            alignment: TimelineAlign.manual,
-            lineX: .2,
-            isFirst: true,
-            rightChild: Container(
-              height: 50,
-              child: Column(
-                children: [
-                  Text(
-                    'Uzanbaar',
-                    style: Theme.of(context).textTheme.headline4,
-                  )
-                ],
+      child: FutureBuilder(
+        future: sl<LocationDatabase>().retriveLocationDb(),
+        builder: (BuildContext context,
+            AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
+          if (snapshot.hasData) {
+            return SizedBox(
+              height: 150.0 * snapshot.data.length,
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: snapshot.data.length,
+                reverse: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Container(
+                    height: 150,
+                    child: TimelineTile(
+                      alignment: TimelineAlign.manual,
+                      lineX: .2,
+                      isFirst:
+                          snapshot.data[index]["id"] == snapshot.data.length
+                              ? true
+                              : false,
+                      isLast: snapshot.data[index]["id"] == 1 ? true : false,
+                      rightChild: LocationDetailTile(
+                        location1latitude: snapshot.data[index]["prevlatitude"],
+                        location1longitude: snapshot.data[index]
+                            ["prevlongitude"],
+                        location2latitude: snapshot.data[index]["latitude"],
+                        location2longitude: snapshot.data[index]["longitude"],
+                        timetaken: 4.0,
+                        speed: 80.0,
+                        distance: 150.0,
+                      ),
+                      leftChild: Container(
+                        margin: EdgeInsets.only(left: 20),
+                        child: Text(
+                          '${DateTime.parse(snapshot.data[index]["dateTime"]).hour}:${DateTime.parse(snapshot.data[index]["dateTime"]).minute}',
+                          style: Theme.of(context).textTheme.subtitle2,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            ),
-            leftChild: Container(
-              child: Text(
-                '12:22 pm',
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            ),
-          ),
-          TimelineTile(
-            alignment: TimelineAlign.manual,
-            lineX: .2,
-            isFirst: true,
-            rightChild: Container(
-              height: 50,
-              child: Column(
-                children: [
-                  Text(
-                    'Uzanbaar',
-                    style: Theme.of(context).textTheme.headline4,
-                  )
-                ],
-              ),
-            ),
-            leftChild: Container(
-              child: Text(
-                '12:22 pm',
-                style: Theme.of(context).textTheme.subtitle2,
-              ),
-            ),
-          ),
-        ],
+            );
+          } else {
+            return Container();
+          }
+        },
       ),
+      // child: Column(
+      //   children: [
+      //     TimelineTile(
+      //       alignment: TimelineAlign.manual,
+      //       lineX: .25,
+      //       isFirst: true,
+      //       rightChild: LocationDetailTile(
+      //         location1: 'Guwahati',
+      //         location2: 'Shillong',
+      //         timetaken: 4.0,
+      //         speed: 80.0,
+      //         distance: 150.0,
+      //       ),
+      //       leftChild: Container(
+      //         margin: EdgeInsets.only(left: 20),
+      //         child: Text(
+      //           '12:22 pm',
+      //           style: Theme.of(context).textTheme.subtitle2,
+      //         ),
+      //       ),
+      //     ),
+      //     TimelineTile(
+      //       alignment: TimelineAlign.manual,
+      //       lineX: .25,
+      //       rightChild: LocationDetailTile(
+      //         location1: 'Guwahati',
+      //         location2: 'Shillong',
+      //         timetaken: 4.0,
+      //         speed: 80.0,
+      //         distance: 150.0,
+      //       ),
+      //       leftChild: Container(
+      //         margin: EdgeInsets.only(left: 20),
+      //         child: Text(
+      //           '12:22 pm',
+      //           style: Theme.of(context).textTheme.subtitle2,
+      //         ),
+      //       ),
+      //     ),
+      //     TimelineTile(
+      //       alignment: TimelineAlign.manual,
+      //       lineX: .2,
+      //       rightChild: Container(
+      //         height: 50,
+      //         child: Column(
+      //           children: [
+      //             Text(
+      //               'Uzanbaar',
+      //               style: Theme.of(context).textTheme.headline4,
+      //             )
+      //           ],
+      //         ),
+      //       ),
+      //       leftChild: Container(
+      //         child: Text(
+      //           '12:22 pm',
+      //           style: Theme.of(context).textTheme.subtitle2,
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
     );
   }
 

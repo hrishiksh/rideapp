@@ -34,6 +34,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
+      iconTheme: IconThemeData(
+        color: Color(0xFF444444),
+        size: 20,
+      ),
       textTheme: TextTheme(
         headline2: TextStyle(
           fontFamily: 'Poppins',
@@ -80,11 +84,10 @@ class MyApp extends StatelessWidget {
           color: Color(0xFF444444),
         ),
         headline4: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 13,
-          fontWeight: FontWeight.normal,
-          color: Color(0xFF444444),
-        ),
+            fontFamily: 'Poppins',
+            fontSize: 13,
+            fontWeight: FontWeight.normal,
+            color: Colors.white),
         subtitle1: TextStyle(
           fontFamily: 'Poppins',
           fontSize: 13,

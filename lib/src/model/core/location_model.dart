@@ -3,7 +3,7 @@ class LocationModel {
   DateTime dateTime;
   double prevlatitude;
   double prevlongitude;
-  DateTime prevDateTime;
+  DateTime prevdateTime;
   double latitude;
   double longitude;
 
@@ -14,7 +14,7 @@ class LocationModel {
     this.longitude,
     this.prevlatitude,
     this.prevlongitude,
-    this.prevDateTime,
+    this.prevdateTime,
   });
 
   Map<String, dynamic> toMap() {
@@ -24,7 +24,7 @@ class LocationModel {
       "longitude": longitude,
       "prevlatitude": prevlatitude,
       "prevlongitude": prevlongitude,
-      "prevdateTime": prevDateTime != null ? prevDateTime.toString() : null,
+      "prevdateTime": prevdateTime != null ? prevdateTime.toString() : null,
     };
   }
 }
