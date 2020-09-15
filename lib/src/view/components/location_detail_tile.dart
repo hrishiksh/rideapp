@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
-import '../../model/services/location_conversion.dart';
+import '../../model/helpers/helpers.dart';
+import '../../model/services/services.dart';
 
 class LocationDetailTile extends StatelessWidget {
   final double location1latitude;
   final double location2latitude;
   final double location1longitude;
   final double location2longitude;
-  final double distance;
-  final double timetaken;
-  final double speed;
+  final DateTime startDate;
+  final DateTime endDate;
 
-  LocationDetailTile(
-      {this.location1latitude,
-      this.location1longitude,
-      this.location2latitude,
-      this.location2longitude,
-      this.distance,
-      this.timetaken,
-      this.speed});
+  LocationDetailTile({
+    this.location1latitude,
+    this.location1longitude,
+    this.location2latitude,
+    this.location2longitude,
+    this.startDate,
+    this.endDate,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -108,7 +108,7 @@ class LocationDetailTile extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Text(
-                '$distance KM',
+                '${calculateDistance(startlatitude: location1latitude, startlongitude: location1longitude, endlatitude: location2latitude, endlongitude: location2longitude)} KM',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],
@@ -121,7 +121,7 @@ class LocationDetailTile extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Text(
-                '$timetaken min',
+                '${calculateTime(startDate: startDate, endDate: endDate)} hr',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],
@@ -134,7 +134,7 @@ class LocationDetailTile extends StatelessWidget {
               ),
               SizedBox(width: 10),
               Text(
-                '$speed km/h',
+                '${calculateValocity(startlatitude: location1latitude, startlongitude: location1longitude, endlatitude: location2latitude, endlongitude: location2longitude, startDate: startDate, endDate: endDate)} Km/h',
                 style: Theme.of(context).textTheme.headline4,
               ),
             ],

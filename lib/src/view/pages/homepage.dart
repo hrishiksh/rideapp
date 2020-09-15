@@ -69,9 +69,12 @@ class HomePage extends StatelessWidget {
                             ["prevlongitude"],
                         location2latitude: snapshot.data[index]["latitude"],
                         location2longitude: snapshot.data[index]["longitude"],
-                        timetaken: 4.0,
-                        speed: 80.0,
-                        distance: 150.0,
+                        startDate: snapshot.data[index]["prevdateTime"] != null
+                            ? DateTime.parse(
+                                snapshot.data[index]["prevdateTime"])
+                            : null,
+                        endDate:
+                            DateTime.parse(snapshot.data[index]["dateTime"]),
                       ),
                       leftChild: Container(
                         margin: EdgeInsets.only(left: 20),
