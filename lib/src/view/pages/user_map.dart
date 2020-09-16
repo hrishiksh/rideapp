@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import '../../controllers/blocs/blocs.dart';
+import '../../model/helpers/helpers.dart';
 
-class MapView extends StatefulWidget {
+class UserMap extends StatefulWidget {
   @override
-  _MapViewState createState() => _MapViewState();
+  _UserMapState createState() => _UserMapState();
 }
 
-class _MapViewState extends State<MapView> {
-  CameraPosition _initialCameraposition =
-      CameraPosition(target: LatLng(0.0, 0.0));
+class _UserMapState extends State<UserMap> {
   GoogleMapController _googleMapController;
+
+  Map<String, double> latlngvalue =
+      sl<UserLocationStream>().locationStreamController.value;
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +27,28 @@ class _MapViewState extends State<MapView> {
         body: Stack(
           children: <Widget>[
             GoogleMap(
-              initialCameraPosition: _initialCameraposition,
+              initialCameraPosition: CameraPosition(
+                target: LatLng(
+                  latlngvalue["latitude"],
+                  latlngvalue["longitude"],
+                ),
+                zoom: 15,
+              ),
               myLocationButtonEnabled: true,
               myLocationEnabled: true,
               mapType: MapType.normal,
               zoomGesturesEnabled: true,
               zoomControlsEnabled: false,
-              markers: {},
+              markers: {
+                Marker(
+                  markerId: MarkerId('1'),
+                  position: LatLng(
+                    latlngvalue["latitude"],
+                    latlngvalue["longitude"],
+                  ),
+                  infoWindow: InfoWindow(title: 'This is info'),
+                ),
+              },
               onMapCreated: (GoogleMapController controller) {
                 _googleMapController = controller;
               },

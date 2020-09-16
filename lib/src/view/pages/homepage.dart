@@ -3,39 +3,50 @@ import 'package:timeline_tile/timeline_tile.dart';
 import '../components/components.dart';
 import '../../model/helpers/helpers.dart';
 import '../../model/services/services.dart';
+import './user_map.dart';
 
 class HomePage extends StatelessWidget {
   Widget _seeInMapBtn(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorLight,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).primaryColorDark.withOpacity(0.25),
-            offset: Offset(2, 2),
-            blurRadius: 5,
-          ),
-          BoxShadow(
-            color: Theme.of(context).primaryColorLight,
-            offset: Offset(-2, -2),
-            blurRadius: 5,
-          ),
-        ],
+    return InkWell(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColorLight,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Theme.of(context).primaryColorDark.withOpacity(0.25),
+              offset: Offset(2, 2),
+              blurRadius: 5,
+            ),
+            BoxShadow(
+              color: Theme.of(context).primaryColorLight,
+              offset: Offset(-2, -2),
+              blurRadius: 5,
+            ),
+          ],
+        ),
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              'Maps',
+              style: Theme.of(context).textTheme.headline3,
+            ),
+            IconButton(icon: Icon(Icons.keyboard_arrow_right), onPressed: null),
+          ],
+        ),
       ),
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            'Maps',
-            style: Theme.of(context).textTheme.headline3,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserMap(),
           ),
-          IconButton(icon: Icon(Icons.keyboard_arrow_right), onPressed: null),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -93,68 +104,6 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
-      // child: Column(
-      //   children: [
-      //     TimelineTile(
-      //       alignment: TimelineAlign.manual,
-      //       lineX: .25,
-      //       isFirst: true,
-      //       rightChild: LocationDetailTile(
-      //         location1: 'Guwahati',
-      //         location2: 'Shillong',
-      //         timetaken: 4.0,
-      //         speed: 80.0,
-      //         distance: 150.0,
-      //       ),
-      //       leftChild: Container(
-      //         margin: EdgeInsets.only(left: 20),
-      //         child: Text(
-      //           '12:22 pm',
-      //           style: Theme.of(context).textTheme.subtitle2,
-      //         ),
-      //       ),
-      //     ),
-      //     TimelineTile(
-      //       alignment: TimelineAlign.manual,
-      //       lineX: .25,
-      //       rightChild: LocationDetailTile(
-      //         location1: 'Guwahati',
-      //         location2: 'Shillong',
-      //         timetaken: 4.0,
-      //         speed: 80.0,
-      //         distance: 150.0,
-      //       ),
-      //       leftChild: Container(
-      //         margin: EdgeInsets.only(left: 20),
-      //         child: Text(
-      //           '12:22 pm',
-      //           style: Theme.of(context).textTheme.subtitle2,
-      //         ),
-      //       ),
-      //     ),
-      //     TimelineTile(
-      //       alignment: TimelineAlign.manual,
-      //       lineX: .2,
-      //       rightChild: Container(
-      //         height: 50,
-      //         child: Column(
-      //           children: [
-      //             Text(
-      //               'Uzanbaar',
-      //               style: Theme.of(context).textTheme.headline4,
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //       leftChild: Container(
-      //         child: Text(
-      //           '12:22 pm',
-      //           style: Theme.of(context).textTheme.subtitle2,
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
     );
   }
 

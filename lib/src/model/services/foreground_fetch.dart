@@ -7,7 +7,7 @@ import '../services/services.dart';
 
 void foreGroundFetch() async {
   if (!(await ForegroundService.foregroundServiceIsStarted())) {
-    await ForegroundService.setServiceIntervalSeconds(20);
+    await ForegroundService.setServiceIntervalSeconds(600);
 
     await ForegroundService.notification.startEditMode();
     await ForegroundService.notification.setTitle("Getting Location");
@@ -54,19 +54,17 @@ void foregroundServiceFunction() async {
 
   SocketConnect socketConnect = SocketConnect.instance;
 
-  // double speed = calculateValocity(
-  //   startlatitude: prevData != null ? prevData[0]["latitude"] : null,
-  //   startlongitude: prevData != null ? prevData[0]["longitude"] : null,
-  //   startDate:
-  //       prevData != null ? DateTime.parse(prevData[0]["dateTime"]) : null,
-  //   endlatitude: position.latitude,
-  //   endlongitude: position.longitude,
-  //   endDate: DateTime.now(),
-  // );
+  String speed = calculateValocity(
+    startlatitude: prevData != null ? prevData[0]["latitude"] : null,
+    startlongitude: prevData != null ? prevData[0]["longitude"] : null,
+    startDate:
+        prevData != null ? DateTime.parse(prevData[0]["dateTime"]) : null,
+    endlatitude: position.latitude,
+    endlongitude: position.longitude,
+    endDate: DateTime.now(),
+  );
 
-  double speed = 25.0;
-
-  if (speed > 20.0) {
+  if (double.parse(speed) > 20.0) {
     socketConnect.sendLocationData({
       'latitude': position.latitude,
       'longitude': position.longitude,

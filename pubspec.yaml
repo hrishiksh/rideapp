@@ -35,6 +35,9 @@ dependencies:
   shared_preferences: ^0.5.10
   flutter_local_notifications: ^1.4.4+4
   socket_io_client: ^0.9.11
+  google_maps_flutter: ^0.5.32
+  rxdart: ^0.24.1
+  flutter_polyline_points: ^0.2.3
 dev_dependencies:
   flutter_test:
     sdk: flutter
