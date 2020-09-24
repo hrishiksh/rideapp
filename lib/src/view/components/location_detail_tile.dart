@@ -23,25 +23,16 @@ class LocationDetailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: 170,
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Theme.of(context).primaryColorDark.withOpacity(0.25),
-            offset: Offset(2, 2),
-            blurRadius: 5,
-          ),
-          BoxShadow(
-            color: Theme.of(context).primaryColorLight,
-            offset: Offset(-2, -2),
-            blurRadius: 5,
-          ),
-        ],
       ),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -52,17 +43,19 @@ class LocationDetailTile extends StatelessWidget {
                       longitude: location1longitude),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Placemark>> snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.hasData && snapshot.data.length > 0) {
                       return Text(
-                        snapshot.data[0].subLocality,
+                        snapshot.data[0].locality ?? '...',
                         style: Theme.of(context).textTheme.headline4,
                         maxLines: 1,
-                        overflow: TextOverflow.fade,
+                        overflow: TextOverflow.ellipsis,
                       );
                     } else {
                       return Text(
                         '...',
                         style: Theme.of(context).textTheme.headline4,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                       );
                     }
                   },
@@ -82,12 +75,12 @@ class LocationDetailTile extends StatelessWidget {
                       longitude: location2longitude),
                   builder: (BuildContext context,
                       AsyncSnapshot<List<Placemark>> snapshot) {
-                    if (snapshot.hasData) {
+                    if (snapshot.hasData && snapshot.data.length > 0) {
                       return Text(
-                        snapshot.data[0].subLocality,
+                        snapshot.data[0].locality ?? '...',
                         style: Theme.of(context).textTheme.headline4,
                         maxLines: 1,
-                        overflow: TextOverflow.fade,
+                        overflow: TextOverflow.ellipsis,
                       );
                     } else {
                       return Text(

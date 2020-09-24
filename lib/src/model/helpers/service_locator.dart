@@ -8,6 +8,8 @@ GetIt sl = GetIt.instance;
 void setupLocator() {
   sl.registerSingleton<LocationDatabase>(LocationDatabase.instance);
   sl.registerSingleton<UserLocationStream>(UserLocationStream());
+  sl.registerSingleton<ServerStream>(ServerStream());
+  sl.registerSingleton<LoginStream>(LoginStream());
   sl.registerSingletonAsync<SharedPreferences>(
       () => SharedPreferences.getInstance());
 }

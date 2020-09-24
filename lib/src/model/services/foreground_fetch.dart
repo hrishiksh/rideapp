@@ -7,7 +7,7 @@ import '../services/services.dart';
 
 void foreGroundFetch() async {
   if (!(await ForegroundService.foregroundServiceIsStarted())) {
-    await ForegroundService.setServiceIntervalSeconds(600);
+    await ForegroundService.setServiceIntervalSeconds(30);
 
     await ForegroundService.notification.startEditMode();
     await ForegroundService.notification.setTitle("Getting Location");
@@ -64,6 +64,8 @@ void foregroundServiceFunction() async {
     endDate: DateTime.now(),
   );
 
+  print(speed);
+
   if (double.parse(speed) > 20.0) {
     socketConnect.sendLocationData({
       'latitude': position.latitude,
@@ -79,5 +81,5 @@ void foregroundServiceFunction() async {
         (message) => print("isolate msg received: $message"));
   }
 
-  ForegroundService.sendToPort("foreground: $position");
+  ForegroundService.sendToPort("foreground: $speed");
 }

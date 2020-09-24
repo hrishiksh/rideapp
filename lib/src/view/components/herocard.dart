@@ -34,7 +34,7 @@ class HeroCard extends StatelessWidget {
           ),
           Container(
             width: double.infinity,
-            height: 200,
+            height: 100,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10),
@@ -59,20 +59,13 @@ class HeroCard extends StatelessWidget {
             ),
             padding: EdgeInsets.symmetric(
               horizontal: 30,
+              vertical: 25,
             ),
-            child: Stack(
-              alignment: AlignmentDirectional.centerStart,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Positioned(
-                  right: 0,
-                  child: Image.asset(
-                    'assets/card.png',
-                    height: 130,
-                  ),
-                ),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       'Today',
@@ -82,6 +75,10 @@ class HeroCard extends StatelessWidget {
                       '3 Km',
                       style: Theme.of(context).textTheme.headline2,
                     ),
+                  ],
+                ),
+                Column(
+                  children: [
                     Text(
                       'Speed',
                       style: Theme.of(context).primaryTextTheme.headline1,

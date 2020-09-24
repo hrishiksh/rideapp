@@ -10,5 +10,5 @@ void main() async {
   );
 
   // initializeNotification();
-  // foreGroundFetch();
+  foreGroundFetch();
 }

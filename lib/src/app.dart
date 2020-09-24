@@ -72,17 +72,15 @@ class MyApp extends StatelessWidget {
       ),
       primaryTextTheme: TextTheme(
         headline1: TextStyle(
-          fontFamily: 'Poppins',
           fontSize: 20,
           fontWeight: FontWeight.w700,
           color: Color(0xFF657ED4),
         ),
         headline3: TextStyle(
-          fontFamily: 'Poppins',
-          fontSize: 15,
-          fontWeight: FontWeight.w500,
-          color: Color(0xFF444444),
-        ),
+            fontFamily: 'Poppins',
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color: Colors.white),
         headline4: TextStyle(
             fontFamily: 'Poppins',
             fontSize: 13,
@@ -93,6 +91,12 @@ class MyApp extends StatelessWidget {
           fontSize: 13,
           fontWeight: FontWeight.w500,
           color: Colors.white,
+        ),
+        subtitle2: TextStyle(
+          fontFamily: 'Poppins',
+          fontSize: 11,
+          fontWeight: FontWeight.normal,
+          color: Colors.red,
         ),
       ),
     );

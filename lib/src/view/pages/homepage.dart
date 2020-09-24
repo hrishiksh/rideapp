@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rideapp/src/model/core/marker_info.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import '../components/components.dart';
 import '../../model/helpers/helpers.dart';
@@ -43,7 +44,24 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => UserMap(),
+            builder: (context) => UserMap(
+              markers: [
+                MarkerInfo(
+                    id: '1',
+                    latitude: 26.185175,
+                    longitude: 91.754264,
+                    name: 'Demo1',
+                    address: 'DemoAddrres',
+                    contact: '123456'),
+                MarkerInfo(
+                    id: '2',
+                    latitude: 26.184175,
+                    longitude: 91.753264,
+                    name: 'Demo1',
+                    address: 'DemoAddrres',
+                    contact: '123456'),
+              ],
+            ),
           ),
         );
       },
@@ -56,16 +74,16 @@ class HomePage extends StatelessWidget {
         future: sl<LocationDatabase>().retriveLocationDb(),
         builder: (BuildContext context,
             AsyncSnapshot<List<Map<String, dynamic>>> snapshot) {
-          if (snapshot.hasData) {
+          if (snapshot.hasData && snapshot.data.length > 0) {
             return SizedBox(
-              height: 150.0 * snapshot.data.length,
+              height: 170.0 * snapshot.data.length,
               child: ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 itemCount: snapshot.data.length,
                 reverse: true,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
-                    height: 150,
+                    height: 170,
                     child: TimelineTile(
                       alignment: TimelineAlign.manual,
                       lineX: .2,
@@ -100,7 +118,14 @@ class HomePage extends StatelessWidget {
               ),
             );
           } else {
-            return Container();
+            return Container(
+              margin: EdgeInsets.only(top: 200),
+              child: Text(
+                'Your timeline will appear here',
+                style: Theme.of(context).textTheme.headline4,
+                textAlign: TextAlign.center,
+              ),
+            );
           }
         },
       ),
@@ -116,20 +141,34 @@ class HomePage extends StatelessWidget {
           bottom: 10,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.location_on_outlined,
-              size: 20,
+            Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  size: 20,
+                ),
+                FutureBuilder(
+                  future: currentAddress(),
+                  initialData: 'Getting your location...',
+                  builder:
+                      (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    return Text(
+                      snapshot.data,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.headline4,
+                    );
+                  },
+                ),
+              ],
             ),
-            FutureBuilder(
-              future: currentAddress(),
-              initialData: 'Getting your location...',
-              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                return Text(
-                  snapshot.data,
-                  style: Theme.of(context).textTheme.headline4,
-                );
-              },
+            Container(
+              child: Text(
+                'Speed Limit: 20kmph',
+                style: Theme.of(context).textTheme.headline4,
+              ),
             ),
           ],
         ),
