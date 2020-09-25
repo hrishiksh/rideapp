@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../controllers/blocs/blocs.dart';
 
 class HeroCard extends StatelessWidget {
   @override
@@ -11,25 +12,37 @@ class HeroCard extends StatelessWidget {
         children: [
           Positioned(
             bottom: -20,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 30),
-              padding: EdgeInsets.only(
-                top: 25,
-                left: 20,
-              ),
-              height: 50,
-              width: MediaQuery.of(context).size.width - 60,
-              decoration: BoxDecoration(
-                color: Color(0xFF45AD49),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                'You are in Green Zone',
-                maxLines: 1,
-                overflow: TextOverflow.fade,
-                style: Theme.of(context).primaryTextTheme.headline4,
-                textAlign: TextAlign.center,
-              ),
+            child: StreamBuilder(
+              stream: StatusStream.instance.statusStream,
+              initialData: {
+                "status": "normal",
+                "color": 0xFF657ED4,
+                "msg": "Moderate traffic. Obey traffic rules",
+                "sl": "100kmph"
+              },
+              builder: (BuildContext context,
+                  AsyncSnapshot<Map<String, dynamic>> snapshot) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 30),
+                  padding: EdgeInsets.only(
+                    top: 25,
+                    left: 20,
+                  ),
+                  height: 50,
+                  width: MediaQuery.of(context).size.width - 60,
+                  decoration: BoxDecoration(
+                    color: Color(snapshot.data["color"]),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Text(
+                    snapshot.data["msg"],
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    style: Theme.of(context).primaryTextTheme.headline4,
+                    textAlign: TextAlign.center,
+                  ),
+                );
+              },
             ),
           ),
           Container(

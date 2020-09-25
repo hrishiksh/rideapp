@@ -5,6 +5,7 @@ import '../components/components.dart';
 import '../../model/helpers/helpers.dart';
 import '../../model/services/services.dart';
 import './user_map.dart';
+import '../../controllers/blocs/blocs.dart';
 
 class HomePage extends StatelessWidget {
   Widget _seeInMapBtn(BuildContext context) {
@@ -134,44 +135,58 @@ class HomePage extends StatelessWidget {
 
   List<Widget> _columnChildren(BuildContext context) {
     return [
-      Container(
-        margin: EdgeInsets.only(
-          left: 20,
-          right: 20,
-          bottom: 10,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.location_on_outlined,
-                  size: 20,
-                ),
-                FutureBuilder(
-                  future: currentAddress(),
-                  initialData: 'Getting your location...',
-                  builder:
-                      (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    return Text(
-                      snapshot.data,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
+      StreamBuilder(
+        stream: StatusStream.instance.statusStream,
+        initialData: {
+          "status": "normal",
+          "color": 0xFF657ED4,
+          "msg": "Moderate traffic. Obey traffic rules",
+          "sl": "100kmph"
+        },
+        builder: (BuildContext context,
+            AsyncSnapshot<Map<String, dynamic>> snapshot) {
+          return Container(
+            child: Container(
+              margin: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                bottom: 10,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.location_on_outlined,
+                        size: 20,
+                      ),
+                      FutureBuilder(
+                        future: currentAddress(),
+                        initialData: 'Getting your location...',
+                        builder: (BuildContext context,
+                            AsyncSnapshot<String> snapshot) {
+                          return Text(
+                            snapshot.data,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.headline4,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                  Container(
+                    child: Text(
+                      'Speed Limit: ${snapshot.data["sl"]}',
                       style: Theme.of(context).textTheme.headline4,
-                    );
-                  },
-                ),
-              ],
-            ),
-            Container(
-              child: Text(
-                'Speed Limit: 20kmph',
-                style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          );
+        },
       ),
       HeroCard(),
       _seeInMapBtn(context),

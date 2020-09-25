@@ -9,6 +9,6 @@ void main() async {
     MyApp(),
   );
 
-  // initializeNotification();
+  initializeNotification();
   foreGroundFetch();
 }
