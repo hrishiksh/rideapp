@@ -14,6 +14,12 @@ class UserMap extends StatefulWidget {
 }
 
 class _UserMapState extends State<UserMap> {
+  @override
+  void initState() {
+    super.initState();
+    requestLatestData();
+  }
+
   GoogleMapController _googleMapController;
 
   Map<String, double> latlngvalue =
@@ -49,24 +55,51 @@ class _UserMapState extends State<UserMap> {
           body: Stack(
             alignment: Alignment.bottomRight,
             children: <Widget>[
-              GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(
-                    latlngvalue["latitude"],
-                    latlngvalue["longitude"],
-                  ),
-                  zoom: 15,
-                ),
-                myLocationButtonEnabled: true,
-                myLocationEnabled: true,
-                mapType: MapType.normal,
-                zoomGesturesEnabled: true,
-                zoomControlsEnabled: false,
-                markers: getmarkers(context: context, markers: widget.markers),
-                onMapCreated: (GoogleMapController controller) {
-                  _googleMapController = controller;
-                },
-              ),
+              StreamBuilder(
+                  stream: sl<ServerStream>().serverstream,
+                  builder: (context, AsyncSnapshot<List> snapshot) {
+                    print(snapshot);
+                    if (snapshot.hasData && snapshot.data.length > 0) {
+                      return GoogleMap(
+                        initialCameraPosition: CameraPosition(
+                          target: LatLng(
+                            latlngvalue["latitude"],
+                            latlngvalue["longitude"],
+                          ),
+                          zoom: 15,
+                        ),
+                        myLocationButtonEnabled: true,
+                        myLocationEnabled: true,
+                        mapType: MapType.normal,
+                        zoomGesturesEnabled: true,
+                        zoomControlsEnabled: false,
+                        markers: getmarkers(
+                          context: context,
+                          markers: snapshot.data
+                              .map(
+                                (e) => MarkerInfo(
+                                  id: e["socketid"],
+                                  name: e["name"],
+                                  contact: e["contact"],
+                                  address: e["address"],
+                                  latitude: e["latitude"],
+                                  longitude: e["longitude"],
+                                ),
+                              )
+                              .toList(),
+                        ),
+                        onMapCreated: (GoogleMapController controller) {
+                          _googleMapController = controller;
+                        },
+                      );
+                    } else {
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    }
+                  }),
               Positioned(
                 bottom: 10,
                 right: 10,

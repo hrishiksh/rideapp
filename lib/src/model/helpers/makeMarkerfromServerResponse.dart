@@ -7,7 +7,9 @@ import './service_locator.dart';
 import 'package:flutter/material.dart';
 
 void requestLatestData() {
-  SocketConnect.instance.getsocketInstance.emit('data-request');
+  //TODO: to get data authenticate with jwt or any other authentication
+  // Check if it is local request or police request
+  SocketConnect.instance.getsocketInstance.emit('data-request', "jwt");
   SocketConnect.instance.getsocketInstance.on(
     'data-response',
     (data) {

@@ -83,63 +83,86 @@ void foregroundServiceFunction() async {
 
   print('SPEED: $speed');
 
-  if (inGreenZone() && double.parse(speed) > 20.0) {
-    socketConnect.sendLocationData({
-      'latitude': position.latitude,
-      'longitude': position.longitude,
-      "time": DateTime.now().toString(),
-    });
-    showNotification();
-    ForegroundService.sendToPort(
-      jsonEncode(
-        {
-          "status": "greenzone",
-          "color": 0xFF57C061,
-          "msg": "Your location is shared with police",
-          "sl": "20kmph"
-        },
-      ),
-    );
-  } else if (inGreenZone()) {
-    ForegroundService.sendToPort(
-      jsonEncode(
-        {
-          "status": "greenzone",
-          "color": 0xFF57C061,
-          "msg": "Greenzone Ahed. Drive slow",
-          "sl": "20kmph"
-        },
-      ),
-    );
-  } else if (double.parse(speed) > 100) {
-    socketConnect.sendLocationData({
-      'latitude': position.latitude,
-      'longitude': position.longitude,
-      "time": DateTime.now().toString(),
-    });
-    showNotification();
-    ForegroundService.sendToPort(
-      jsonEncode(
-        {
-          "status": "greenzone",
-          "color": 0xFFFF3A3A,
-          "msg": "Your location is shared with police",
-          "sl": "20kmph"
-        },
-      ),
-    );
-  } else {
-    ForegroundService.sendToPort(
-      jsonEncode(
-        {
-          "status": "normal",
-          "color": 0xFF657ED4,
-          "msg": "Moderate traffic. Obey traffic rules",
-          "sl": "100kmph"
-        },
-      ),
-    );
-  }
+  socketConnect.sendLocationData({
+    //TODO: get name and address from sharedpreference
+    'name': 'from app',
+    'contact': '1232345673',
+    'address': 'Guwahati',
+    'latitude': position.latitude,
+    'longitude': position.longitude,
+    'time': DateTime.now().toString(),
+  });
+  showNotification();
+  ForegroundService.sendToPort(
+    jsonEncode(
+      {
+        "status": "greenzone",
+        "color": 0xFF57C061,
+        "msg": "Your location is shared with police",
+        "sl": "20kmph"
+      },
+    ),
+  );
+
+  //TODO: un comment below line
+
+  // if (inGreenZone() && double.parse(speed) > 20.0) {
+  //   socketConnect.sendLocationData({
+  //     'latitude': position.latitude,
+  //     'longitude': position.longitude,
+  //     "time": DateTime.now().toString(),
+  //   });
+  //   showNotification();
+  //   ForegroundService.sendToPort(
+  //     jsonEncode(
+  //       {
+  //         "status": "greenzone",
+  //         "color": 0xFF57C061,
+  //         "msg": "Your location is shared with police",
+  //         "sl": "20kmph"
+  //       },
+  //     ),
+  //   );
+  // } else if (inGreenZone()) {
+  //   ForegroundService.sendToPort(
+  //     jsonEncode(
+  //       {
+  //         "status": "greenzone",
+  //         "color": 0xFF57C061,
+  //         "msg": "Greenzone Ahed. Drive slow",
+  //         "sl": "20kmph"
+  //       },
+  //     ),
+  //   );
+  // } else if (double.parse(speed) > 100) {
+  //   socketConnect.sendLocationData({
+  //     'latitude': position.latitude,
+  //     'longitude': position.longitude,
+  //     "time": DateTime.now().toString(),
+  //   });
+  //   showNotification();
+  //   ForegroundService.sendToPort(
+  //     jsonEncode(
+  //       {
+  //         "status": "greenzone",
+  //         "color": 0xFFFF3A3A,
+  //         "msg": "Your location is shared with police",
+  //         "sl": "20kmph"
+  //       },
+  //     ),
+  //   );
+  // } else {
+  //   ForegroundService.sendToPort(
+  //     jsonEncode(
+  //       {
+  //         "status": "normal",
+  //         "color": 0xFF657ED4,
+  //         "msg": "Moderate traffic. Obey traffic rules",
+  //         "sl": "100kmph"
+  //       },
+  //     ),
+  //   );
+  // }
 
   print("INSERTED");
 

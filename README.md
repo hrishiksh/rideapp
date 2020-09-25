@@ -18,6 +18,8 @@ if speed limit cross notification fired and color change
 
 when a user break any rule his or her location popup in the map and when we tap on the icon we can see their details. like name and contact info.
 
+Distributed and continuous integration
+
 We use location of Kohora forest of Kajiranga national park to calculate greenzone
 
 If something urgent you can share this info in whatsapp;

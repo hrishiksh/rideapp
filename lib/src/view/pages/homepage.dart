@@ -46,6 +46,7 @@ class HomePage extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => UserMap(
+              //TODO: delete these markers
               markers: [
                 MarkerInfo(
                     id: '1',
