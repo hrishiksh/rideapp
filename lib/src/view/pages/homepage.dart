@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:rideapp/src/model/core/marker_info.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import '../components/components.dart';
@@ -134,6 +135,55 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  Widget _directLocationShare(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text('Share your location',
+              style: Theme.of(context).textTheme.subtitle1),
+          StreamBuilder(
+            stream: ToggleLocationSharing.instance.toggleLocationStream,
+            initialData: false,
+            builder: (context, snapshot) {
+              return Switch(
+                value: snapshot.data,
+                onChanged: (value) {
+                  ToggleLocationSharing.instance.addToggleLocation(value);
+                  if (value) {
+                    shareLocationDirectly(cancelstream: false);
+                    StatusStream.instance.addStatus(
+                      {
+                        "status": "greenzone",
+                        "color": 0xFFFF3A3A,
+                        "msg": "Your location is shared with police",
+                        "sl": "20kmph"
+                      },
+                    );
+                  } else {
+                    shareLocationDirectly(cancelstream: true);
+
+                    //TODO: Make this correct
+                    StatusStream.instance.addStatus(
+                      {
+                        "status": "greenzone",
+                        "color": 0xFFFF3A3A,
+                        "msg": "Drive slow",
+                        "sl": "20kmph"
+                      },
+                    );
+                  }
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
   List<Widget> _columnChildren(BuildContext context) {
     return [
       StreamBuilder(
@@ -190,7 +240,10 @@ class HomePage extends StatelessWidget {
         },
       ),
       HeroCard(),
-      _seeInMapBtn(context),
+      _directLocationShare(context),
+      sl<SharedPreferences>().getBool("isPolice")
+          ? _seeInMapBtn(context)
+          : Container(),
       _timeline(context),
     ];
   }

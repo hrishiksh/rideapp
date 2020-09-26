@@ -4,3 +4,4 @@ export './location_conversion.dart';
 export './location_service.dart';
 export './socket_connect.dart';
 export './notification.dart';
+export './direct_location_sharing.dart';

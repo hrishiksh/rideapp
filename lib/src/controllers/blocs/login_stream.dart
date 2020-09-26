@@ -1,6 +1,7 @@
 import 'dart:async';
-
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../model/helpers/helpers.dart';
 
 class InputSanitizer {
   final nameValidator = StreamTransformer<String, String>.fromHandlers(
@@ -46,12 +47,16 @@ class LoginStream extends InputSanitizer {
   final _loginNameStreamController = BehaviorSubject<String>();
   final _loginContactStreamController = BehaviorSubject<String>();
   final _loginAddressStreamController = BehaviorSubject<String>();
+  final _loginIsPoliceStreamController = BehaviorSubject<bool>();
 
   void Function(String) get addname => _loginNameStreamController.sink.add;
   void Function(String) get addcontact =>
       _loginContactStreamController.sink.add;
   void Function(String) get addaddress =>
       _loginAddressStreamController.sink.add;
+
+  void Function(bool) get addIsPolice =>
+      _loginIsPoliceStreamController.sink.add;
 
   Stream<String> get nameStream =>
       _loginNameStreamController.stream.transform(nameValidator);
@@ -60,13 +65,25 @@ class LoginStream extends InputSanitizer {
   Stream<String> get addressStream =>
       _loginAddressStreamController.stream.transform(addressValidator);
 
-  void submit() {
-    print(_loginNameStreamController.value);
+  Stream<bool> get isPoliceStream => _loginIsPoliceStreamController.stream;
+
+  Future<void> submit() async {
+    await sl<SharedPreferences>()
+        .setString("name", _loginNameStreamController.value);
+    await sl<SharedPreferences>()
+        .setString("contact", _loginContactStreamController.value);
+    await sl<SharedPreferences>()
+        .setString("address", _loginAddressStreamController.value);
+    await sl<SharedPreferences>()
+        .setBool("isPolice", _loginIsPoliceStreamController.value ?? false);
+
+    print("ADDED SHARED_PREFERENCE");
   }
 
   dispose() {
     _loginNameStreamController.close();
     _loginContactStreamController.close();
     _loginAddressStreamController.close();
+    _loginIsPoliceStreamController.close();
   }
 }
