@@ -37,8 +37,8 @@ dependencies:
   socket_io_client: ^0.9.11
   google_maps_flutter: ^0.5.32
   rxdart: ^0.24.1
+  url_launcher: ^5.7.2
   share: ^0.6.5+2
-  provider: ^4.3.2+2
 dev_dependencies:
   flutter_test:
     sdk: flutter

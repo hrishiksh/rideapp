@@ -8,7 +8,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: "Ride App",
-      home: HomePage(),
+      home: Login(),
       theme: lightTheme(),
       debugShowCheckedModeBanner: false,
     );

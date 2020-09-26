@@ -156,10 +156,10 @@ class HomePage extends StatelessWidget {
                     shareLocationDirectly(cancelstream: false);
                     StatusStream.instance.addStatus(
                       {
-                        "status": "greenzone",
+                        "status": "selfShare",
                         "color": 0xFFFF3A3A,
                         "msg": "Your location is shared with police",
-                        "sl": "20kmph"
+                        "sl": "50kmph"
                       },
                     );
                   } else {
@@ -168,10 +168,10 @@ class HomePage extends StatelessWidget {
                     //TODO: Make this correct
                     StatusStream.instance.addStatus(
                       {
-                        "status": "greenzone",
-                        "color": 0xFFFF3A3A,
-                        "msg": "Drive slow",
-                        "sl": "20kmph"
+                        "status": "normal",
+                        "color": 0xFF657ED4,
+                        "msg": "Moderate traffic. Obey traffic rules",
+                        "sl": "100kmph"
                       },
                     );
                   }
@@ -262,12 +262,6 @@ class HomePage extends StatelessWidget {
         child: Column(
           children: _columnChildren(context),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print('Running');
-        },
-        child: Icon(Icons.share_outlined),
       ),
     );
   }

@@ -108,6 +108,9 @@ void foregroundServiceFunction() async {
   if (ToggleLocationSharing.instance.toggleLocationSharing.value != null &&
       ToggleLocationSharing.instance.toggleLocationSharing.value) {
     socketConnect.sendLocationData({
+      'name': storage.getString("name"),
+      'contact': storage.getString("contact"),
+      'address': storage.getString("address"),
       'latitude': position.latitude,
       'longitude': position.longitude,
       "time": DateTime.now().toString(),
@@ -116,15 +119,20 @@ void foregroundServiceFunction() async {
     ForegroundService.sendToPort(
       jsonEncode(
         {
-          "status": "greenzone",
-          "color": 0xFF57C061,
-          "msg": "Greenzone Ahed. Drive slow",
-          "sl": "20kmph"
+          "status": "selfShare",
+          "color": 0xFFFF3A3A,
+          "msg": "Your location is shared with police",
+          "sl": "50kmph"
         },
       ),
     );
-  } else if (inGreenZone() && double.parse(speed) > 20.0) {
+  } else if (inGreenZone() &&
+      double.parse(speed) > 20.0 &&
+      double.parse(speed) != double.infinity) {
     socketConnect.sendLocationData({
+      'name': storage.getString("name"),
+      'contact': storage.getString("contact"),
+      'address': storage.getString("address"),
       'latitude': position.latitude,
       'longitude': position.longitude,
       "time": DateTime.now().toString(),
@@ -151,8 +159,12 @@ void foregroundServiceFunction() async {
         },
       ),
     );
-  } else if (double.parse(speed) > 100) {
+  } else if (double.parse(speed) > 100 &&
+      double.parse(speed) != double.infinity) {
     socketConnect.sendLocationData({
+      'name': storage.getString("name"),
+      'contact': storage.getString("contact"),
+      'address': storage.getString("address"),
       'latitude': position.latitude,
       'longitude': position.longitude,
       "time": DateTime.now().toString(),
@@ -163,7 +175,7 @@ void foregroundServiceFunction() async {
         {
           "status": "greenzone",
           "color": 0xFFFF3A3A,
-          "msg": "Your location is shared with police",
+          "msg": "Slow down. Location is shared with police",
           "sl": "20kmph"
         },
       ),
