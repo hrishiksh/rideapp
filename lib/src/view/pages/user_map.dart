@@ -5,10 +5,6 @@ import '../../model/helpers/helpers.dart';
 import '../../model/core/marker_info.dart';
 
 class UserMap extends StatefulWidget {
-  final List<MarkerInfo> markers;
-
-  UserMap({this.markers});
-
   @override
   _UserMapState createState() => _UserMapState();
 }

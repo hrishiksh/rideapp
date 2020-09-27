@@ -33,7 +33,7 @@ Future<void> showNotification() async {
   IOSNotificationDetails iosSpecification = IOSNotificationDetails();
   NotificationDetails platformchanelspecification =
       NotificationDetails(androidSpecification, iosSpecification);
-  await flutterLocalNotificationsPlugin.show(
-      0, 'Test Title', 'Test Body', platformchanelspecification,
+  await flutterLocalNotificationsPlugin.show(0, 'Location is shared',
+      'Your location is shared with police', platformchanelspecification,
       payload: 'This is a payload');
 }

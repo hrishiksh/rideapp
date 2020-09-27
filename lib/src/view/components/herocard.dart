@@ -7,7 +7,7 @@ class HeroCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(bottom: 30),
       child: Stack(
-        overflow: Overflow.visible,
+        clipBehavior: Clip.none,
         alignment: AlignmentDirectional.bottomCenter,
         children: [
           Positioned(

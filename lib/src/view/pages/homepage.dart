@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:rideapp/src/model/core/marker_info.dart';
 import 'package:timeline_tile/timeline_tile.dart';
 import '../components/components.dart';
 import '../../model/helpers/helpers.dart';
@@ -46,25 +45,7 @@ class HomePage extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => UserMap(
-              //TODO: delete these markers
-              markers: [
-                MarkerInfo(
-                    id: '1',
-                    latitude: 26.185175,
-                    longitude: 91.754264,
-                    name: 'Demo1',
-                    address: 'DemoAddrres',
-                    contact: '123456'),
-                MarkerInfo(
-                    id: '2',
-                    latitude: 26.184175,
-                    longitude: 91.753264,
-                    name: 'Demo1',
-                    address: 'DemoAddrres',
-                    contact: '123456'),
-              ],
-            ),
+            builder: (context) => UserMap(),
           ),
         );
       },
@@ -154,6 +135,7 @@ class HomePage extends StatelessWidget {
                   ToggleLocationSharing.instance.addToggleLocation(value);
                   if (value) {
                     shareLocationDirectly(cancelstream: false);
+                    showNotification();
                     StatusStream.instance.addStatus(
                       {
                         "status": "selfShare",

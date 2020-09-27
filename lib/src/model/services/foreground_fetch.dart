@@ -84,8 +84,7 @@ void foregroundServiceFunction() async {
   print('SPEED: $speed');
 
   // socketConnect.sendLocationData({
-  //   //TODO: get name and address from sharedpreference
-  // TODO: add color and logic approprietly
+  //
   //   'name': 'from app',
   //   'contact': '1232345673',
   //   'address': 'Guwahati',
