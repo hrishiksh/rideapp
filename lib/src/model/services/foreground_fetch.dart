@@ -9,7 +9,7 @@ import '../../controllers/blocs/blocs.dart';
 
 void foreGroundFetch() async {
   if (!(await ForegroundService.foregroundServiceIsStarted())) {
-    await ForegroundService.setServiceIntervalSeconds(30);
+    await ForegroundService.setServiceIntervalSeconds(600);
 
     await ForegroundService.notification.startEditMode();
     await ForegroundService.notification.setTitle("Getting Location");

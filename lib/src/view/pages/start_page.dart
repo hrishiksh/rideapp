@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/helpers/helpers.dart';
-import './login.dart';
-import 'homepage.dart';
+import './pages.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -11,32 +10,36 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   @override
-  void initState() async {
+  void initState() {
     super.initState();
-    if (sl<SharedPreferences>().getString("name") != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomePage(),
-        ),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Login(),
-        ),
-      );
-    }
+    Future.delayed(Duration(seconds: 3), () {
+      if (sl<SharedPreferences>().getString("name") != null) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      } else {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ConsentPage(),
+          ),
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          'RIDEAPP',
-          style: Theme.of(context).appBarTheme.textTheme.headline1,
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: Text(
+            'RIDEAPP',
+            style: Theme.of(context).appBarTheme.textTheme.headline1,
+          ),
         ),
       ),
     );

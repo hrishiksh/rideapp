@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './pages.dart';
 
 class ConsentPage extends StatelessWidget {
   @override
@@ -74,7 +75,14 @@ class ConsentPage extends StatelessWidget {
       SizedBox(height: 20),
       RaisedButton(
         color: Theme.of(context).primaryColor,
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Login(),
+            ),
+          );
+        },
         child: Text(
           'Accept and proceed',
           style: Theme.of(context).primaryTextTheme.subtitle1,
